@@ -22,22 +22,25 @@ db.connect(err => {
 });
 
 // Middleware pour parser le corps des requêtes en JSON
-// app.use(express.json());
+app.use(express.json());
 
 // Exemple de route pour récupérer tous les utilisateurs
-app.get('/users', (req, res) => {
-  db.query('SELECT * FROM users', (err, results) => {
+app.get('/produits', (req, res) => {
+  db.query('SELECT * FROM produits', (err, results) => {
     if (err) throw err;
     res.json(results);
   });
 });
 
 // Exemple de route pour ajouter un utilisateur
-app.post('/users', (req, res) => {
-  const { name, email } = req.body;
-  db.query('INSERT INTO users (name, email) VALUES (?, ?)', [name, email], (err, result) => {
-    if (err) throw err;
-    res.json({ id: result.insertId, name, email });
+app.post('/produits', (req, res) => {
+
+  const { Produits, Quantités, Prix } = req.body;
+  db.query('INSERT INTO `mydb`.`produits` (`Produits`,`Quantités`,`Prix`) VALUES(?,?,?)', [Produits, Quantités, Prix], (err, result) => {
+    if (err) { 
+      throw err 
+    };
+    res.json({ id: result.insertId, Produits, Quantités, Prix });
   });
 });
 
